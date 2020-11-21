@@ -1,0 +1,109 @@
+/* autor Tobiasz Witalis */
+
+@import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900&display=swap');
+
+body {
+	background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+	background-size: 1300% 1300%;
+	animation: gradient 75s ease infinite;
+}
+
+h4, p, button, input {
+    font-family: 'Poppins', sans-serif;
+    color: #5A5A5A;
+    text-align: center;
+}
+
+h4 {
+    margin-top: -2%;
+    margin-bottom: 10%;
+}
+
+h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 350%;
+    text-align: center;
+    margin-top: 15%;
+    color: whitesmoke;
+}
+  
+  p, button, input {
+    font-size: 14px;
+    margin-left: 5px;
+    margin-right: 5px; 
+    text-decoration: none;
+  }
+  
+  button {
+    display: inline-block;
+    background-color: #91CBF3;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    -webkit-border-radius: 10px; 
+    -moz-border-radius: 10px; 
+    border-radius: 10px; 
+  }
+
+  button :hover {
+    background-color: rgb(187, 186, 186);
+  }
+  
+  input {
+    display: inline-block;
+    border: 1px solid lightgrey;
+    padding: 10px 20px;
+    -webkit-border-radius: 10px; 
+    -moz-border-radius: 10px; 
+    border-radius: 10px; 
+  }
+  
+  #container {
+    margin: 20px auto;
+    text-align: center;
+  }
+  
+  #instructions {
+    margin: 20px auto;
+    width: 50%;
+  }
+
+  #moves {
+      font-size: 120%;
+      color: whitesmoke;
+  }
+  
+  .boardItemLightOn {
+    background-color: #74ff3b;
+    border: 1px solid #5A5A5A;
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    vertical-align: top;
+  }
+  
+  .boardItemLightOff {
+    background-color: white;
+    border: 1px solid grey;
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    vertical-align: top;
+  }
+
+  .boardItemLightOff:hover, .boardItemLightOn:hover  {
+    background-color: rgb(187, 186, 186);
+  }
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}

@@ -9,92 +9,92 @@ body {
 }
 
 h4, p, button, input {
-    font-family: 'Poppins', sans-serif;
-    color: #5A5A5A;
-    text-align: center;
+  font-family: 'Poppins', sans-serif;
+  color: #5A5A5A;
+  text-align: center;
 }
 
 h4 {
-    margin-top: -2%;
-    margin-bottom: 10%;
+  margin-top: -2%;
+  margin-bottom: 10%;
 }
 
 h1 {
-    font-family: 'Poppins', sans-serif;
-    font-size: 350%;
-    text-align: center;
-    margin-top: 15%;
-    color: whitesmoke;
+  font-family: 'Poppins', sans-serif;
+  font-size: 350%;
+  text-align: center;
+  margin-top: 5%;
+  color: whitesmoke;
 }
   
-  p, button, input {
-    font-size: 14px;
-    margin-left: 5px;
-    margin-right: 5px; 
-    text-decoration: none;
-  }
-  
-  button {
-    display: inline-block;
-    background-color: #91CBF3;
-    border: none;
-    padding: 10px 20px;
-    font-weight: bold;
-    cursor: pointer;
-    -webkit-border-radius: 10px; 
-    -moz-border-radius: 10px; 
-    border-radius: 10px; 
-  }
+p, button, input {
+  font-size: 14px;
+  margin-left: 5px;
+  margin-right: 5px; 
+  text-decoration: none;
+}
 
-  button :hover {
-    background-color: rgb(187, 186, 186);
-  }
+input {
+  display: inline-block;
+  border: 1px solid lightgrey;
+  padding: 10px 20px;
+  -webkit-border-radius: 10px; 
+  -moz-border-radius: 10px; 
+  border-radius: 10px; 
+}
   
-  input {
-    display: inline-block;
-    border: 1px solid lightgrey;
-    padding: 10px 20px;
-    -webkit-border-radius: 10px; 
-    -moz-border-radius: 10px; 
-    border-radius: 10px; 
-  }
-  
-  #container {
-    margin: 20px auto;
-    text-align: center;
-  }
-  
-  #instructions {
-    margin: 20px auto;
-    width: 50%;
-  }
+button {
+  display: inline-block;
+  background-color: #91CBF3;
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  cursor: pointer;
+  -webkit-border-radius: 10px; 
+  -moz-border-radius: 10px; 
+  border-radius: 10px; 
+}
 
-  #moves {
-      font-size: 120%;
-      color: whitesmoke;
-  }
+button :hover {
+  background-color: rgb(187, 186, 186);
+}
   
-  .boardItemLightOn {
-    background-color: #74ff3b;
-    border: 1px solid #5A5A5A;
-    display: inline-block;
-    width: 70px;
-    height: 70px;
-    vertical-align: top;
-  }
-  
-  .boardItemLightOff {
-    background-color: white;
-    border: 1px solid grey;
-    display: inline-block;
-    width: 70px;
-    height: 70px;
-    vertical-align: top;
-  }
+#container {
+  text-align: center;
+  margin: 20px auto;
+}
 
-  .boardItemLightOff:hover, .boardItemLightOn:hover  {
-    background-color: rgb(187, 186, 186);
-  }
+#moves {
+  color: whitesmoke;
+  font-size: 120%;
+}
+  
+#instructions {
+  margin: 20px auto;
+  width: 50%;
+}
+  
+.boardItemLightOn {
+  background-color: #74ff3b;
+  border: 1px solid #5A5A5A;
+  display: inline-block;
+  width: 70px;
+  height: 70px;
+  vertical-align: top;
+}
+  
+.boardItemLightOff {
+  background-color: white;
+  border: 1px solid grey;
+  display: inline-block;
+  width: 70px;
+  height: 70px;
+  vertical-align: top;
+}
+
+.boardItemLightOff:hover, .boardItemLightOn:hover  {
+  background-color: rgb(187, 186, 186);
+}
 
 @keyframes gradient {
 	0% {

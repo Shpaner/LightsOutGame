@@ -3,7 +3,7 @@ window.onload = function () {
 
   let boardContainer = [];
   let hints = [];
-  let shouldShowHints = true;
+  let hintsAreOn = false;
 
   let boardWidth;  // board width
   let boardHeight;  // board height
@@ -17,11 +17,13 @@ window.onload = function () {
   let hintButton = document.getElementById("hint");
   let createGameForm = document.forms["createGameForm"];
   let movesPara = document.getElementById("moves");
+  let header = document.getElementById('header4');
 
   // Initally hide game option functionality 
   restartButton.style.display = 'none';
   newBoardButton.style.display = 'none';
   hintButton.style.display = 'none';
+  header.innerHTML = "by Tobiasz Witalis";
 
   // Once DOM items are loaded attach the event handlers
   createGameForm.onsubmit = e => newGame(e);
@@ -43,6 +45,7 @@ window.onload = function () {
     restartButton.style.display = 'inline';
     newBoardButton.style.display = 'inline';
     hintButton.style.display = 'inline';
+    header.innerHTML = "Leave only whites to win!";
   }
 
   function showGameForm(e) {
@@ -69,6 +72,7 @@ window.onload = function () {
   function createGame() {
 
     hints = [];
+    hintsAreOn = false;
 
     boardContainer = createBoard(boardWidth, boardHeight);
 
@@ -97,11 +101,16 @@ window.onload = function () {
         }
       }
 
-      // delete clicked hint
-      for (i = 0; i < hints.length; i++) 
-        if (hints[i] == tmp) 
+      let addHint = true;
+      for (i = 0; i < hints.length; i++) {
+        if (hints[i] == tmp) {
           hints.splice(i, 1);
-        
+          addHint = false;
+          break;
+        }
+      }
+
+      if (addHint) { hints.push(tmp); }
 
       // Update moves counter 
       movesCounter++;
@@ -117,7 +126,9 @@ window.onload = function () {
       }
 
       displayBoard(boardContainer);
-      shouldShowHints = true;
+      
+      if (hintsAreOn)
+        showHints();
     }
   }
 
@@ -211,35 +222,20 @@ window.onload = function () {
     let lightsOn = document.getElementsByClassName("boardItemLightOn");
     let lightsOff = document.getElementsByClassName("boardItemLightOff");
 
-    if (shouldShowHints) {
+    // turn on hints
+    Array.from(lightsOn).forEach( item => {
+      for (i = 0; i < hints.length; i++) 
+        if (hints[i] == item.id) 
+          item.style.backgroundColor = "#fffb2b";
+    });
 
-      Array.from(lightsOn).forEach( item => {
-        for (i = 0; i < hints.length; i++) 
-          if (hints[i] == item.id) 
-            item.style.backgroundColor = "#fffb2b";
-      });
-
-      Array.from(lightsOff).forEach( item => {
-        for (i = 0; i < hints.length; i++) 
-          if (hints[i] == item.id) 
-            item.style.backgroundColor = "#fffb2b";
-      });
-
-    } else {
-      Array.from(lightsOn).forEach( item => {
-        for (i = 0; i < hints.length; i++) 
-          if (hints[i] == item.id) 
-            item.style.backgroundColor = "#74ff3b";
-      });
-
-      Array.from(lightsOff).forEach( item => {
-        for (i = 0; i < hints.length; i++) 
-          if (hints[i] == item.id) 
-            item.style.backgroundColor = "#74ff3b";
-      });
-    }
+    Array.from(lightsOff).forEach( item => {
+      for (i = 0; i < hints.length; i++) 
+        if (hints[i] == item.id) 
+          item.style.backgroundColor = "#fffb2b";
+    });
     
-    shouldShowHints = !shouldShowHints;
+      hintsAreOn = true;
   }
 
   function checkBoardCompleted(board) {

@@ -1,15 +1,12 @@
 
-// Ensure the DOM is loaded before attempting to mutate or add elements.
 window.onload = function () {
 
-  // Use a multidemnsional array to represent the x and y respectively 
-  // where the value is a boolean to represent whether the light is on
   let boardContainer = [];
   let hints = [];
   let shouldShowHints = true;
 
-  let xlength;
-  let ylength;
+  let boardWidth;  // board width
+  let boardHeight;  // board height
 
   let movesCounter = 0;
   let boardCompleted = false;
@@ -32,19 +29,12 @@ window.onload = function () {
   newBoardButton.onclick = e => showGameForm(e);
   hintButton.onclick = e => showHints(e);
 
-
-
-  /* --- Display functions --- */
-
-  // Current issues here are the display functions are interacting with global variables which would ideally be 
-  // managed by some global state using Redux or a similar approach instead of global variables.
-
   function newGame(e) {
     e.preventDefault();
 
     // Update x and y lengths
-    xlength = createGameForm["width"].value;
-    ylength = createGameForm["height"].value;
+    boardWidth = createGameForm["width"].value;
+    boardHeight = createGameForm["height"].value;
 
     createGame();
 
@@ -80,53 +70,50 @@ window.onload = function () {
 
     hints = [];
 
-    // Update board container
-    boardContainer = createBoard(xlength, ylength);
+    boardContainer = createBoard(boardWidth, boardHeight);
 
-    // Reset counter
     movesCounter = 0;
     movesPara.innerHTML = `Moves: ${movesCounter}`;
 
-    // Reset board completed
     boardCompleted = false;
 
-    // Finally display the board
     displayBoard(boardContainer);
   }
 
 
-  function userClick(x, y) {
+  function userClick(y, x) {
 
     if (!boardCompleted) { 
     
       // find clicked spot
       tmp = 0;
-      for (k = 0; k < ylength; k++) {
-        for (l = 0; l < xlength; l++) {
-          if (k === x && l === y) {
-            k = ylength;
+      for (k = 0; k < boardHeight; k++) {
+        for (l = 0; l < boardWidth; l++) {
+          if (k === y && l === x) {
+            k = boardHeight;
             break;
           }
           tmp += 1;
         }
       }
 
+      // delete clicked hint
       for (i = 0; i < hints.length; i++) 
-        if (hints[i] == tmp) {
+        if (hints[i] == tmp) 
           hints.splice(i, 1);
-        }
+        
 
-      // Update attempts counter information
+      // Update moves counter 
       movesCounter++;
       movesPara.innerHTML = `Moves: ${movesCounter}`;
 
-      updateBoard(boardContainer, x, y);
+      updateBoard(boardContainer, y, x);
 
       if (checkBoardCompleted(boardContainer)) {
 
         boardCompleted = true;
-        let attemptText = movesCounter === 1 ? 'move' : 'moves';
-        movesPara.innerHTML = `Congratulations! Completed in ${movesCounter} ${attemptText}. Restart or update the board size to continue.`;
+        let tmpText = movesCounter === 1 ? 'move' : 'moves';
+        movesPara.innerHTML = `Congratulations! You've completed in ${movesCounter} ${tmpText}. Restart or update the board size to continue.`;
       }
 
       displayBoard(boardContainer);
@@ -142,16 +129,16 @@ window.onload = function () {
     }
 
     id_nr = 0
-    for (i=0; i<ylength; i++) {
+    for (y = 0; y < boardHeight; y++) {
 
       let row = document.createElement('div');
       row.className = 'row';
 
-      for (j=0; j<xlength; j++) {
+      for (x = 0; x < boardWidth; x++) {
 
         let boardItem = document.createElement('div');
-        boardItem.className = board[i][j] ? 'boardItemLightOn' : 'boardItemLightOff';
-        boardItem.onclick = userClick.bind(undefined, i, j);
+        boardItem.className = board[y][x] ? 'boardItemLightOn' : 'boardItemLightOff';
+        boardItem.onclick = userClick.bind(undefined, y, x);
         boardItem.id = id_nr;
         row.appendChild(boardItem);
         id_nr += 1;
@@ -160,8 +147,6 @@ window.onload = function () {
       boardDiv.appendChild(row);
     }
   }
-
-  /* --- Application logic functions --- */
 
   function createBoard(boardWidth, boardHeight) {
 
@@ -176,10 +161,9 @@ window.onload = function () {
       newBoard.push(xRow);
     }
 
-    // Ensure that at least one random light gets turned on
-    let atLeastOneLightOn = true;
+    let noLightsTurnedOn = true;
 
-    var i = 0;
+    let i = 0;
 
     for (y = 0; y < boardHeight; y++) {
 
@@ -193,32 +177,32 @@ window.onload = function () {
           hints.push(i)
         }
         
-        // avoid possibility of having empty array
-        if (!atLeastOneLightOn && lightOn) {
-          atLeastOneLightOn = true;
+        // if at least one is turned on - continue
+        if (noLightsTurnedOn && lightOn) {
+          noLightsTurnedOn = false;
         } 
 
         i += 1
       }
     }
 
-    // If no lights on - let's try again with that random generator!
-    if (!atLeastOneLightOn) { 
+    // restart if no lights are turned on
+    if (noLightsTurnedOn) { 
       createBoard(boardHeight, boardWidth) 
     } else {
       return newBoard;  
       }
   }
 
-  function updateBoard(board, x, y) {
+  function updateBoard(board, y, x) {
 
-    board[x][y] = !board[x][y];
+    board[y][x] = !board[y][x];
 
-    // Update surrounding lights if they exist
-    if (x > 0)                  { board[x-1][y] = !board[x-1][y]; }
-    if (x < board.length-1)     { board[x+1][y] = !board[x+1][y]; }
-    if (y > 0)                  { board[x][y-1] = !board[x][y-1]; }
-    if (y < board[0].length-1)  { board[x][y+1] = !board[x][y+1]; }
+    // Change surrounding lights if they exist
+    if (y > 0)                  { board[y-1][x] = !board[y-1][x]; }
+    if (y < board.length-1)     { board[y+1][x] = !board[y+1][x]; }
+    if (x > 0)                  { board[y][x-1] = !board[y][x-1]; }
+    if (x < board[0].length-1)  { board[y][x+1] = !board[y][x+1]; }
   }
 
   function showHints(e) {
@@ -260,9 +244,9 @@ window.onload = function () {
 
   function checkBoardCompleted(board) {
 
-    for (i=0; i<board.length; i++) {
-      for (j=0; j<board[0].length; j++) {
-        if (board[i][j]) {
+    for (y = 0; y < board.length; y++) {
+      for (x = 0; x < board[0].length; x++) {
+        if (board[y][x]) {
           return false;
         }
       }
